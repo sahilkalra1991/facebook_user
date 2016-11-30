@@ -16,6 +16,8 @@ var/
 .installed.cfg
 *.egg
 .idea/
+.DS_store
+__pycache__
 
 # Unit test / coverage reports
 htmlcov/
@@ -31,5 +33,6 @@ coverage.xml
 # Django stuff:
 *.log
 local_settings.py
+media/
 
 

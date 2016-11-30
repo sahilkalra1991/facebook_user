@@ -25,7 +25,7 @@ SECRET_KEY = 'g0^3ki33-0g@j@_ku&06e4im+*kp$hj8ty#$a42gyhn(g%ac5u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost.com']
 
 
 # Application definition
@@ -37,6 +37,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Additional Apps
+    'django.contrib.sites',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +64,7 @@ ROOT_URLCONF = 'facebook_user.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -122,3 +132,43 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = "/media/"
+
+# Additional Settings
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SITE_ID = 1
+
+AUTH_USER_MODEL = 'users.User'
+
+LOGIN_REDIRECT_URL = "home"
+LOGIN_URL = "account_login"
+ACCOUNT_LOGOUT_ON_GET = True
+
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook':
+        {'METHOD': 'js_sdk',
+         'SCOPE': ['email', 'public_profile'],
+         'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+         'FIELDS': [                # Fields to query from Facebook
+             'id',
+             'email',
+             'name',
+             'first_name',
+             'last_name',
+             'verified',
+             'locale',
+             'timezone',
+             'link',
+             'gender',
+             'updated_time'],
+         'EXCHANGE_TOKEN': True,    # Setting this to true will exchange the short life token to long life token
+         'LOCALE_FUNC': lambda request: 'en_US',
+         'VERIFIED_EMAIL': False,
+         'VERSION': 'v2.4'}
+}
+
+ACCOUNT_EMAIL_VERIFICATION = "none"

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <div>
+        {% for message in messages %}
+	        <li>{{message}}</li>
+	    {% endfor %}
+    </div>
+    <div>
+        <ul>
+            <li>Hello: {{ request.user.first_name }}</li>
+            <li>Email: {{ request.user.email }}</li>
+            <li>Your Image: <img src="{{ request.user.profile_picture.url }}"/></li>
+        </ul>
+    </div>
+    <hr/>
+    <a href="{% url "account_logout" %}">Logout</a>
+</body>
+</html>
